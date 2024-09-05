@@ -6,7 +6,7 @@ resource "aws_autoscaling_group" "web_tier_asg" {
   }
 
   vpc_zone_identifier = local.web_subet_ids
-  target_group_arns   = [aws_lb_target_group.app_tier_tg.arn]
+  target_group_arns   = [aws_lb_target_group.web_tier_tg.arn]
 
   desired_capacity = 2
   min_size         = 2
