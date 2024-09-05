@@ -8,7 +8,7 @@ resource "aws_launch_template" "app_tier_lt" {
     name = var.aws_iam_instance_profile
   }
 
- user_data = base64encode(<<-EOF
+  user_data = base64encode(<<-EOF
               #!/bin/bash
               cd ~/
               sudo apt update -y
@@ -18,7 +18,7 @@ resource "aws_launch_template" "app_tier_lt" {
               pm2 startup
               pm2 save
   EOF
- )
+  )
   tag_specifications {
     resource_type = "instance"
     tags = merge(local.tags,

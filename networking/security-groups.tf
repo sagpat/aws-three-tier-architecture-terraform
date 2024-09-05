@@ -4,7 +4,7 @@ data "http" "my_ip" {
 
 resource "aws_security_group" "sg_internet_facing_lb" {
   vpc_id = aws_vpc.main_vpc.id
-  name = "secg-internet-facing-lb"
+  name   = "secg-internet-facing-lb"
   ingress {
     description = "Allow HTTP traffic from my IP"
     from_port   = 80
@@ -26,7 +26,7 @@ resource "aws_security_group" "sg_internet_facing_lb" {
 
 resource "aws_security_group" "web_tier_sg" {
   vpc_id = aws_vpc.main_vpc.id
-  name = "secg-web-tier"
+  name   = "secg-web-tier"
   ingress {
     description = "Allow HTTP traffic from my IP"
     from_port   = 80
@@ -56,7 +56,7 @@ resource "aws_security_group" "web_tier_sg" {
 
 resource "aws_security_group" "internal_lb_sg" {
   vpc_id = aws_vpc.main_vpc.id
-  name = "secg-internal-lb"
+  name   = "secg-internal-lb"
   ingress {
     description     = "Allow HTTP traffic from internal load balancer SG"
     from_port       = 80
@@ -78,7 +78,7 @@ resource "aws_security_group" "internal_lb_sg" {
 
 resource "aws_security_group" "private_instance_sg" {
   vpc_id = aws_vpc.main_vpc.id
-  name = "secg-private-instance"
+  name   = "secg-private-instance"
 
   ingress {
     description     = "Allow HTTP traffic from internal lb SG"
@@ -109,7 +109,7 @@ resource "aws_security_group" "private_instance_sg" {
 
 resource "aws_security_group" "db_sg" {
   vpc_id      = aws_vpc.main_vpc.id
-  name = "secg-db"
+  name        = "secg-db"
   description = "SG for our databases"
 
   tags = merge(module.tags.tags, { Name = "db-sg" })

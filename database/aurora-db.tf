@@ -13,10 +13,10 @@ resource "aws_rds_cluster" "aurora" {
 
 # Aurora RDS Cluster Instances
 resource "aws_rds_cluster_instance" "aurora_instances" {
-  count                = 2
-  identifier           = "aurora-instance-${count.index + 1}"
-  cluster_identifier   = aws_rds_cluster.aurora.id
-  instance_class       = "db.t3.medium"
+  count              = 2
+  identifier         = "aurora-instance-${count.index + 1}"
+  cluster_identifier = aws_rds_cluster.aurora.id
+  instance_class     = "db.t3.medium"
   #db.t4g.small to use as it costs $0.0320/hr against db.r5.large which is $0.2500/hr
   engine               = aws_rds_cluster.aurora.engine
   engine_version       = aws_rds_cluster.aurora.engine_version

@@ -8,10 +8,10 @@ module "networking" {
 module "storage" {
   source           = "./storage"
   application_name = var.application_name
-  db_host = module.database.aws_rds_cluster_endpoint
-  db_user = var.db_user
-  db_pwd = var.db_pwd
-  db_database = var.db_database
+  db_host          = module.database.aws_rds_cluster_endpoint
+  db_user          = var.db_user
+  db_pwd           = var.db_pwd
+  db_database      = var.db_database
 }
 
 module "iam_roles" {
@@ -24,8 +24,8 @@ module "database" {
   flattened_subnets = local.flattened_subnets
   aws_subnet_ids    = module.networking.aws_subnet_ids
   db_security_group = module.networking.db_sg.id
-  db_user = var.db_user
-  db_pwd = var.db_pwd
+  db_user           = var.db_user
+  db_pwd            = var.db_pwd
 }
 
 module "compute_app_tier" {
@@ -38,4 +38,16 @@ module "compute_app_tier" {
   s3_bucket_name           = module.storage.s3_bucket_name
   aws_vpc_id               = module.networking.aws_vpc_id.id
   internal_lb_sg           = module.networking.internal_lb_sg.id
+}
+
+module "compute_web_tier" {
+  source                   = "./compute/web-tier-deployment"
+  alb_dns_name             = module.compute_app_tier.alb_dns_name
+  s3_bucket_name           = module.storage.s3_bucket_name
+  aws_iam_instance_profile = module.iam_roles.aws_iam_instance_profile
+  aws_subnet_ids           = module.networking.aws_subnet_ids
+  flattened_subnets        = local.flattened_subnets
+  web_tier_sg              = module.networking.web_tier_sg.id
+  aws_vpc_id               = module.networking.aws_vpc_id.id
+  internet_lb_sg = module.networking.internet_lb_sg.id
 }

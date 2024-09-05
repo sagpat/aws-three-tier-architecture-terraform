@@ -50,3 +50,7 @@ output "s3_bucket_name" {
 output "aws_vpc_id" {
   value = module.networking.aws_vpc_id.id
 }
+
+output "dns_name" {
+  value = module.compute_app_tier.alb_dns_name
+}

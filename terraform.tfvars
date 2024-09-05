@@ -22,6 +22,6 @@ aws_managed_roles = [
 ]
 
 # Database details - Enhancement: TO GET IT FROM SECRETS MANAGER 
-db_user = "admin"
-db_pwd = "yuYBuFGSKLVG"
+db_user     = "admin"
+db_pwd      = "yuYBuFGSKLVG"
 db_database = "webappdb_data1"

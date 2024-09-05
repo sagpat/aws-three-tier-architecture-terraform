@@ -31,10 +31,18 @@ output "private_instance_sg" {
   value = aws_security_group.private_instance_sg
 }
 
+output "web_tier_sg" {
+  value = aws_security_group.web_tier_sg
+}
+
 output "aws_vpc_id" {
   value = aws_vpc.main_vpc
 }
 
 output "internal_lb_sg" {
   value = aws_security_group.internal_lb_sg
+}
+
+output "internet_lb_sg" {
+  value = aws_security_group.sg_internet_facing_lb
 }

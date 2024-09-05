@@ -2,7 +2,7 @@ variable "application_name" {
   type = string
 }
 
-variable db_host {
+variable "db_host" {
   type = string
 }
 
