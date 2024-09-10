@@ -1,8 +1,12 @@
-# resource "null_resource" "replace_dns_config" {
-#   provisioner "local-exec" {
-#     command = "sed -i 's/[INTERNAL_LB_DNS]/${var.db_host}/g' ${local.path_to_web_server}"
-#   }
-# }
+resource "null_resource" "replace_dns_config" {
+  provisioner "local-exec" {
+    interpreter = ["/bin/bash", "-c"]
+     command     = <<EXE
+     sed 's|DNS_HOST|${var.alb_dns_name}|g' \
+     ${local.path_to_web_server} > /tmp/dns_config.tmp && mv /tmp/dns_config.tmp ${local.path_to_web_server}
+EXE
+  }
+}
 
 # Upload the web server code to S3
 data "local_file" "app_tier_files" {
