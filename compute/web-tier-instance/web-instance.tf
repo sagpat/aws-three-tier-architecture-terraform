@@ -28,17 +28,24 @@ resource "aws_instance" "web_tier_instance" {
   # terraform taint 'module.compute_app_tier.aws_instance.app_tier_instance'
 
   user_data = <<-EOF
-    #!/bin/bash
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-    source ~/.bashrc
-    nvm install 16
-    nvm use 16
+    # Update the system
+    sudo apt-get update
+    sudo apt-get upgrade -y
+    curl -fsSL https://deb.nodesource.com/setup_21.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+    node --version
+    npm -v
     cd ~/
-    aws s3 cp s3://${var.s3_bucket_name}/web-tier/ web-tier --recursive
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+    sudo apt install unzip
+    unzip awscliv2.zip
+    sudo ./aws/install
+    aws --version
+    aws s3 cp s3://${var.s3_bucket_name}/application-code/web-tier/ web-tier --recursive
     cd ~/web-tier
-    npm install 
+    npm install
     npm run build
-    sudo yum install nginx -y
+    sudo npm install -g nginx -y
     cd /etc/nginx
     ls
     sudo rm nginx.conf
@@ -47,11 +54,6 @@ resource "aws_instance" "web_tier_instance" {
     chmod -R 755 /home/ec2-user
     sudo chkconfig nginx on
   EOF
-
-  # aws s3 cp s3://three-tier-app-XXXX/application-code/app-tier/ app-tier --recursive
-  # aws s3 cp s3://three-tier-app-XXX/application-code/web-tier/ web-tier --recursive
-  # sudo aws s3 cp s3://three-tier-app-XXXX/application-code/web-tier/nginx.conf .
-  # sudo yum install nginx -y
 
   tags = merge(local.tags,
     {

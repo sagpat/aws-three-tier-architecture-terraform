@@ -8,17 +8,17 @@ resource "aws_launch_template" "web_tier_lt" {
     name = var.aws_iam_instance_profile
   }
 
-#   user_data = base64encode(<<-EOF
-#               #!/bin/bash
-#               cd ~/
-#               sudo apt update -y
-#               cd ~/app-tier
-#               pm2 start index.js
-#               pm2 list
-#               pm2 startup
-#               pm2 save
-#   EOF
-#   )
+  #   user_data = base64encode(<<-EOF
+  #               #!/bin/bash
+  #               cd ~/
+  #               sudo apt update -y
+  #               cd ~/app-tier
+  #               pm2 start index.js
+  #               pm2 list
+  #               pm2 startup
+  #               pm2 save
+  #   EOF
+  #   )
 
 
   tag_specifications {

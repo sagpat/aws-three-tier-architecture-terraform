@@ -25,3 +25,4 @@ aws_managed_roles = [
 db_user     = "admin"
 db_pwd      = "yuYBuFGSKLVG"
 db_database = "webappdb_data1"
+db_host     = "auroro.db.host:443"

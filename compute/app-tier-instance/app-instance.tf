@@ -17,12 +17,14 @@ data "aws_ami" "ubuntu_ami" {
 
 
 resource "aws_instance" "app_tier_instance" {
-  ami                    = data.aws_ami.ubuntu_ami.id
-  instance_type          = "t2.micro"
-  subnet_id              = var.aws_subnet_ids[local.private_app_index_az1].id
-  vpc_security_group_ids = [var.private_instance_sg]
-  iam_instance_profile   = var.aws_iam_instance_profile
-  monitoring             = true
+  ami                         = data.aws_ami.ubuntu_ami.id
+  instance_type               = "t2.micro"
+  subnet_id                   = var.aws_subnet_ids[local.private_app_index_az1].id
+  vpc_security_group_ids      = [var.private_instance_sg]
+  iam_instance_profile        = var.aws_iam_instance_profile
+  monitoring                  = true
+  user_data_replace_on_change = true
+
   root_block_device {
     delete_on_termination = true
     volume_size           = 10
@@ -117,4 +119,3 @@ resource "aws_instance" "app_tier_instance" {
     }
   )
 }
-

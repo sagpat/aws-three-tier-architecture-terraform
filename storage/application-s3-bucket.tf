@@ -9,19 +9,20 @@ resource "aws_s3_bucket" "application_bucket" {
   tags   = merge(local.tags, { Name = "aws-s3-bucket-${var.application_name}" })
 }
 
-# resource "null_resource" "replace_db_config" {
-#   provisioner "local-exec" {
-#     command = <<EOT
-#     sed 's|APP_DB_HOST|${var.db_host}|g; s|APP_DB_USER|${var.db_user}|g; s|APP_DB_PWD|${var.db_pwd}|g; s|APP_DB_DATABASE|${var.db_database}|g; s/\([&()\{\}]\)//g' ${local.path_to_db_config} > /tmp/db_config.tmp
-#     mv /tmp/db_config.tmp ${file(local.path_to_db_config)}
-#     EOT
-#   }
-# }
+resource "null_resource" "replace_db_config" {
+  provisioner "local-exec" {
+    interpreter = ["/bin/bash", "-c"]
+    command     = <<EXE
+  sed 's|DB-HOST|${var.db_host}|g; s|DB-USER|${var.db_user}|g; s|DB-PWD|${var.db_pwd}|g; s|DB-NAME|${var.db_database}|g' \
+  ${local.path_to_db_config} > /tmp/db_config.tmp && mv /tmp/db_config.tmp ${local.path_to_db_config}
+EXE
+  }
+}
 
 data "local_file" "app_tier_files" {
-  # depends_on = [ null_resource.replace_db_config ]
-  for_each = fileset(local.path_to_app_code, "*")
-  filename = "${local.path_to_app_code}/${each.key}"
+  depends_on = [null_resource.replace_db_config]
+  for_each   = fileset(local.path_to_app_code, "*")
+  filename   = "${local.path_to_app_code}/${each.key}"
 }
 
 resource "aws_s3_object" "app_tier_code" {
@@ -30,5 +31,4 @@ resource "aws_s3_object" "app_tier_code" {
   key      = "application-code/app-tier/${each.key}"
   source   = "${local.path_to_app_code}/${each.key}"
   acl      = "private"
-  etag     = filemd5("${local.path_to_app_code}/${each.key}")
 }

@@ -46,3 +46,7 @@ variable "aws_vpc_id" {
 variable "internal_lb_sg" {
   type = string
 }
+
+variable "app_tier_instance_id" {
+  type = string
+}

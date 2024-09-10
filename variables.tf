@@ -35,3 +35,7 @@ variable "db_pwd" {
 variable "db_database" {
   type = string
 }
+
+variable "db_host" {
+  type = string
+}

@@ -1,0 +1,139 @@
+digraph G {
+  rankdir = "RL";
+  node [shape = rect, fontname = "sans-serif"];
+  subgraph "cluster_module.compute_app_tier_instance" {
+    label = "module.compute_app_tier_instance"
+    fontname = "sans-serif"
+    "module.compute_app_tier_instance.data.aws_ami.ubuntu_ami" [label="data.aws_ami.ubuntu_ami"];
+    "module.compute_app_tier_instance.aws_instance.app_tier_instance" [label="aws_instance.app_tier_instance"];
+  }
+  subgraph "cluster_module.compute_app_tier_scaling" {
+    label = "module.compute_app_tier_scaling"
+    fontname = "sans-serif"
+    "module.compute_app_tier_scaling.aws_ami_from_instance.app_tier_ami" [label="aws_ami_from_instance.app_tier_ami"];
+    "module.compute_app_tier_scaling.aws_autoscaling_group.app_tier_asg" [label="aws_autoscaling_group.app_tier_asg"];
+    "module.compute_app_tier_scaling.aws_launch_template.app_tier_lt" [label="aws_launch_template.app_tier_lt"];
+    "module.compute_app_tier_scaling.aws_lb.app_tier_alb" [label="aws_lb.app_tier_alb"];
+    "module.compute_app_tier_scaling.aws_lb_listener.http" [label="aws_lb_listener.http"];
+    "module.compute_app_tier_scaling.aws_lb_target_group.app_tier_tg" [label="aws_lb_target_group.app_tier_tg"];
+  }
+  subgraph "cluster_module.compute_web_tier" {
+    label = "module.compute_web_tier"
+    fontname = "sans-serif"
+    "module.compute_web_tier.data.aws_ami.amazon_linux_2_ssm" [label="data.aws_ami.amazon_linux_2_ssm"];
+    "module.compute_web_tier.data.local_file.app_tier_files" [label="data.local_file.app_tier_files"];
+    "module.compute_web_tier.aws_ami_from_instance.web_tier_ami" [label="aws_ami_from_instance.web_tier_ami"];
+    "module.compute_web_tier.aws_autoscaling_group.web_tier_asg" [label="aws_autoscaling_group.web_tier_asg"];
+    "module.compute_web_tier.aws_instance.web_tier_instance" [label="aws_instance.web_tier_instance"];
+    "module.compute_web_tier.aws_launch_template.web_tier_lt" [label="aws_launch_template.web_tier_lt"];
+    "module.compute_web_tier.aws_lb.web_tier_alb" [label="aws_lb.web_tier_alb"];
+    "module.compute_web_tier.aws_lb_listener.http" [label="aws_lb_listener.http"];
+    "module.compute_web_tier.aws_lb_target_group.web_tier_tg" [label="aws_lb_target_group.web_tier_tg"];
+    "module.compute_web_tier.aws_s3_object.nginx_file_upload" [label="aws_s3_object.nginx_file_upload"];
+    "module.compute_web_tier.aws_s3_object.web_tier_code" [label="aws_s3_object.web_tier_code"];
+  }
+  subgraph "cluster_module.database" {
+    label = "module.database"
+    fontname = "sans-serif"
+    "module.database.aws_db_subnet_group.this" [label="aws_db_subnet_group.this"];
+    "module.database.aws_rds_cluster.aurora" [label="aws_rds_cluster.aurora"];
+    "module.database.aws_rds_cluster_instance.aurora_instances" [label="aws_rds_cluster_instance.aurora_instances"];
+  }
+  subgraph "cluster_module.iam_roles" {
+    label = "module.iam_roles"
+    fontname = "sans-serif"
+    "module.iam_roles.aws_iam_instance_profile.ssm_s3_instance_profile" [label="aws_iam_instance_profile.ssm_s3_instance_profile"];
+    "module.iam_roles.aws_iam_role.ssm_s3_role" [label="aws_iam_role.ssm_s3_role"];
+    "module.iam_roles.aws_iam_role_policy_attachment.cloud_watch_agent_policy" [label="aws_iam_role_policy_attachment.cloud_watch_agent_policy"];
+    "module.iam_roles.aws_iam_role_policy_attachment.s3_readonly_policy_attachment" [label="aws_iam_role_policy_attachment.s3_readonly_policy_attachment"];
+    "module.iam_roles.aws_iam_role_policy_attachment.ssm_policy_attachment" [label="aws_iam_role_policy_attachment.ssm_policy_attachment"];
+  }
+  subgraph "cluster_module.networking" {
+    label = "module.networking"
+    fontname = "sans-serif"
+    "module.networking.data.http.my_ip" [label="data.http.my_ip"];
+    "module.networking.aws_eip.nat" [label="aws_eip.nat"];
+    "module.networking.aws_internet_gateway.aws_main_igw" [label="aws_internet_gateway.aws_main_igw"];
+    "module.networking.aws_nat_gateway.natgw" [label="aws_nat_gateway.natgw"];
+    "module.networking.aws_route_table.app_layer" [label="aws_route_table.app_layer"];
+    "module.networking.aws_route_table.web_layer" [label="aws_route_table.web_layer"];
+    "module.networking.aws_route_table_association.app_az1_subnet_association" [label="aws_route_table_association.app_az1_subnet_association"];
+    "module.networking.aws_route_table_association.app_az2_subnet_association" [label="aws_route_table_association.app_az2_subnet_association"];
+    "module.networking.aws_route_table_association.web_subnet_association" [label="aws_route_table_association.web_subnet_association"];
+    "module.networking.aws_security_group.db_sg" [label="aws_security_group.db_sg"];
+    "module.networking.aws_security_group.internal_lb_sg" [label="aws_security_group.internal_lb_sg"];
+    "module.networking.aws_security_group.private_instance_sg" [label="aws_security_group.private_instance_sg"];
+    "module.networking.aws_security_group.sg_internet_facing_lb" [label="aws_security_group.sg_internet_facing_lb"];
+    "module.networking.aws_security_group.web_tier_sg" [label="aws_security_group.web_tier_sg"];
+    "module.networking.aws_subnet.subnets" [label="aws_subnet.subnets"];
+    "module.networking.aws_vpc.main_vpc" [label="aws_vpc.main_vpc"];
+  }
+  subgraph "cluster_module.storage" {
+    label = "module.storage"
+    fontname = "sans-serif"
+    "module.storage.data.local_file.app_tier_files" [label="data.local_file.app_tier_files"];
+    "module.storage.aws_s3_bucket.application_bucket" [label="aws_s3_bucket.application_bucket"];
+    "module.storage.aws_s3_object.app_tier_code" [label="aws_s3_object.app_tier_code"];
+    "module.storage.null_resource.replace_db_config" [label="null_resource.replace_db_config"];
+    "module.storage.random_id.bucket_suffix" [label="random_id.bucket_suffix"];
+  }
+  "module.compute_app_tier_instance.aws_instance.app_tier_instance" -> "module.compute_app_tier_instance.data.aws_ami.ubuntu_ami";
+  "module.compute_app_tier_instance.aws_instance.app_tier_instance" -> "module.database.aws_rds_cluster.aurora";
+  "module.compute_app_tier_instance.aws_instance.app_tier_instance" -> "module.iam_roles.aws_iam_instance_profile.ssm_s3_instance_profile";
+  "module.compute_app_tier_instance.aws_instance.app_tier_instance" -> "module.storage.aws_s3_bucket.application_bucket";
+  "module.compute_app_tier_scaling.aws_ami_from_instance.app_tier_ami" -> "module.compute_app_tier_instance.aws_instance.app_tier_instance";
+  "module.compute_app_tier_scaling.aws_autoscaling_group.app_tier_asg" -> "module.compute_app_tier_scaling.aws_launch_template.app_tier_lt";
+  "module.compute_app_tier_scaling.aws_autoscaling_group.app_tier_asg" -> "module.compute_app_tier_scaling.aws_lb_target_group.app_tier_tg";
+  "module.compute_app_tier_scaling.aws_launch_template.app_tier_lt" -> "module.compute_app_tier_scaling.aws_ami_from_instance.app_tier_ami";
+  "module.compute_app_tier_scaling.aws_lb.app_tier_alb" -> "module.networking.aws_security_group.internal_lb_sg";
+  "module.compute_app_tier_scaling.aws_lb.app_tier_alb" -> "module.networking.aws_subnet.subnets";
+  "module.compute_app_tier_scaling.aws_lb_listener.http" -> "module.compute_app_tier_scaling.aws_lb.app_tier_alb";
+  "module.compute_app_tier_scaling.aws_lb_listener.http" -> "module.compute_app_tier_scaling.aws_lb_target_group.app_tier_tg";
+  "module.compute_app_tier_scaling.aws_lb_target_group.app_tier_tg" -> "module.networking.aws_vpc.main_vpc";
+  "module.compute_web_tier.aws_ami_from_instance.web_tier_ami" -> "module.compute_web_tier.aws_instance.web_tier_instance";
+  "module.compute_web_tier.aws_autoscaling_group.web_tier_asg" -> "module.compute_web_tier.aws_launch_template.web_tier_lt";
+  "module.compute_web_tier.aws_autoscaling_group.web_tier_asg" -> "module.compute_web_tier.aws_lb_target_group.web_tier_tg";
+  "module.compute_web_tier.aws_instance.web_tier_instance" -> "module.compute_web_tier.data.aws_ami.amazon_linux_2_ssm";
+  "module.compute_web_tier.aws_instance.web_tier_instance" -> "module.iam_roles.aws_iam_instance_profile.ssm_s3_instance_profile";
+  "module.compute_web_tier.aws_instance.web_tier_instance" -> "module.networking.aws_security_group.web_tier_sg";
+  "module.compute_web_tier.aws_instance.web_tier_instance" -> "module.networking.aws_subnet.subnets";
+  "module.compute_web_tier.aws_instance.web_tier_instance" -> "module.storage.aws_s3_bucket.application_bucket";
+  "module.compute_web_tier.aws_launch_template.web_tier_lt" -> "module.compute_web_tier.aws_ami_from_instance.web_tier_ami";
+  "module.compute_web_tier.aws_lb.web_tier_alb" -> "module.networking.aws_security_group.sg_internet_facing_lb";
+  "module.compute_web_tier.aws_lb.web_tier_alb" -> "module.networking.aws_subnet.subnets";
+  "module.compute_web_tier.aws_lb_listener.http" -> "module.compute_web_tier.aws_lb.web_tier_alb";
+  "module.compute_web_tier.aws_lb_listener.http" -> "module.compute_web_tier.aws_lb_target_group.web_tier_tg";
+  "module.compute_web_tier.aws_lb_target_group.web_tier_tg" -> "module.networking.aws_vpc.main_vpc";
+  "module.compute_web_tier.aws_s3_object.nginx_file_upload" -> "module.compute_web_tier.data.local_file.app_tier_files";
+  "module.compute_web_tier.aws_s3_object.nginx_file_upload" -> "module.storage.aws_s3_bucket.application_bucket";
+  "module.compute_web_tier.aws_s3_object.web_tier_code" -> "module.compute_web_tier.data.local_file.app_tier_files";
+  "module.compute_web_tier.aws_s3_object.web_tier_code" -> "module.storage.aws_s3_bucket.application_bucket";
+  "module.database.aws_db_subnet_group.this" -> "module.networking.aws_subnet.subnets";
+  "module.database.aws_rds_cluster.aurora" -> "module.database.aws_db_subnet_group.this";
+  "module.database.aws_rds_cluster.aurora" -> "module.networking.aws_security_group.db_sg";
+  "module.database.aws_rds_cluster_instance.aurora_instances" -> "module.database.aws_rds_cluster.aurora";
+  "module.iam_roles.aws_iam_instance_profile.ssm_s3_instance_profile" -> "module.iam_roles.aws_iam_role.ssm_s3_role";
+  "module.iam_roles.aws_iam_role_policy_attachment.cloud_watch_agent_policy" -> "module.iam_roles.aws_iam_role.ssm_s3_role";
+  "module.iam_roles.aws_iam_role_policy_attachment.s3_readonly_policy_attachment" -> "module.iam_roles.aws_iam_role.ssm_s3_role";
+  "module.iam_roles.aws_iam_role_policy_attachment.ssm_policy_attachment" -> "module.iam_roles.aws_iam_role.ssm_s3_role";
+  "module.networking.aws_internet_gateway.aws_main_igw" -> "module.networking.aws_vpc.main_vpc";
+  "module.networking.aws_nat_gateway.natgw" -> "module.networking.aws_eip.nat";
+  "module.networking.aws_nat_gateway.natgw" -> "module.networking.aws_subnet.subnets";
+  "module.networking.aws_route_table.app_layer" -> "module.networking.aws_nat_gateway.natgw";
+  "module.networking.aws_route_table.web_layer" -> "module.networking.aws_internet_gateway.aws_main_igw";
+  "module.networking.aws_route_table_association.app_az1_subnet_association" -> "module.networking.aws_route_table.app_layer";
+  "module.networking.aws_route_table_association.app_az2_subnet_association" -> "module.networking.aws_route_table.app_layer";
+  "module.networking.aws_route_table_association.web_subnet_association" -> "module.networking.aws_route_table.web_layer";
+  "module.networking.aws_route_table_association.web_subnet_association" -> "module.networking.aws_subnet.subnets";
+  "module.networking.aws_security_group.db_sg" -> "module.networking.aws_security_group.private_instance_sg";
+  "module.networking.aws_security_group.internal_lb_sg" -> "module.networking.aws_security_group.web_tier_sg";
+  "module.networking.aws_security_group.private_instance_sg" -> "module.networking.aws_security_group.internal_lb_sg";
+  "module.networking.aws_security_group.sg_internet_facing_lb" -> "module.networking.data.http.my_ip";
+  "module.networking.aws_security_group.sg_internet_facing_lb" -> "module.networking.aws_vpc.main_vpc";
+  "module.networking.aws_security_group.web_tier_sg" -> "module.networking.aws_security_group.sg_internet_facing_lb";
+  "module.networking.aws_subnet.subnets" -> "module.networking.aws_vpc.main_vpc";
+  "module.storage.aws_s3_bucket.application_bucket" -> "module.storage.random_id.bucket_suffix";
+  "module.storage.aws_s3_object.app_tier_code" -> "module.storage.data.local_file.app_tier_files";
+  "module.storage.aws_s3_object.app_tier_code" -> "module.storage.aws_s3_bucket.application_bucket";
+  "module.storage.null_resource.replace_db_config" -> "module.database.aws_rds_cluster.aurora";
+}

@@ -1,4 +1,5 @@
 resource "aws_launch_template" "app_tier_lt" {
+  depends_on             = [aws_ami_from_instance.app_tier_ami]
   name                   = "app-tier-asg-instance"
   image_id               = aws_ami_from_instance.app_tier_ami.id
   instance_type          = "t2.micro"

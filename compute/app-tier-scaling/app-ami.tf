@@ -1,6 +1,6 @@
 resource "aws_ami_from_instance" "app_tier_ami" {
   name               = "ec2-app-ami"
-  source_instance_id = aws_instance.app_tier_instance.id
+  source_instance_id = var.app_tier_instance_id
   description        = "AMI for the app level EC2 instance to use for auto scaling"
 
   lifecycle {
