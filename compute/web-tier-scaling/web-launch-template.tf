@@ -8,17 +8,14 @@ resource "aws_launch_template" "web_tier_lt" {
     name = var.aws_iam_instance_profile
   }
 
-  #   user_data = base64encode(<<-EOF
-  #               #!/bin/bash
-  #               cd ~/
-  #               sudo apt update -y
-  #               cd ~/app-tier
-  #               pm2 start index.js
-  #               pm2 list
-  #               pm2 startup
-  #               pm2 save
-  #   EOF
-  #   )
+    user_data = base64encode(<<-EOF
+        cd /etc/nginx
+        ls
+        sudo service nginx restart
+        sudo chmod -R 755 /home/ubuntu
+        sudo systemctl enable nginx
+    EOF
+    )
 
 
   tag_specifications {
