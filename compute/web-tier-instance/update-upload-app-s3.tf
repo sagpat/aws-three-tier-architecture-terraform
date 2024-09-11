@@ -21,7 +21,7 @@ resource "aws_s3_object" "web_tier_code" {
   key      = "application-code/web-tier/${each.key}"
   source   = "${local.path_to_web_code}/${each.key}"
   acl      = "private"
-  etag     = filemd5("${local.path_to_web_code}/${each.key}")
+  # etag     = filemd5("${local.path_to_web_code}/${each.key}")
 }
 
 resource "aws_s3_object" "nginx_file_upload" {
@@ -30,5 +30,5 @@ resource "aws_s3_object" "nginx_file_upload" {
   key      = "application-code/web-tier/nginx.conf"
   source   = local.path_to_web_server
   acl      = "private"
-  etag     = filemd5(local.path_to_web_server)
+  # etag     = filemd5(local.path_to_web_server)
 }
