@@ -107,12 +107,6 @@ resource "aws_instance" "app_tier_instance" {
     pm2 save
   EOF
 
-  # aws s3 cp s3://three-tier-app-1cf81efb11ef /application-code/app-tier/ app-tier --recursive
-  # aws s3 cp s3://three-tier-app-1cf81efb11ef/application-code/web-tier/ web-tier --recursive
-  # sudo aws s3 cp s3://three-tier-app-XXXX/application-code/web-tier/nginx.conf .
-  # mysql -h aurora-cluster.cluster-c38084kkymek.us-west-2.rds.amazonaws.com -u admin -pyuYBuFGSKLVG --enable-cleartext-plugin
-  # sudo yum install nginx -y
-
   tags = merge(local.tags,
     {
       Name = "app-layer-instance"
