@@ -3,3 +3,5 @@
 **.tfstate*
 .DS_Store
 .terraform.lock.hcl
+graph.svg
+graph.dot
