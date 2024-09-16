@@ -23,6 +23,6 @@ aws_managed_roles = [
 
 # Database details - Enhancement: TO GET IT FROM SECRETS MANAGER 
 db_user     = "admin"
-db_pwd      = "yuYBuFGSKLVG"
+db_pwd      = "XXXXXXX"
 db_database = "webappdb_data1"
-db_host     = "auroro.db.host:443"
+db_host     = "auroro.db.host:443" // this var is not used and it is used for testing.
