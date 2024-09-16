@@ -115,7 +115,7 @@ resource "aws_security_group" "db_sg" {
   tags = merge(module.tags.tags, { Name = "db-sg" })
 
   ingress {
-    description     = "Allow HTTP traffic from my IP"
+    description     = "Allow HTTP traffic from db port"
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
